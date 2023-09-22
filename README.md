@@ -24,7 +24,7 @@ git clone https://github.com/SidonTheTroll/gh-eye ~/.local/share/gh/ --depth 1
 
 ## Dependencies
 
-1. Kitty 
+1. [Kitty](https://github.com/kovidgoyal/kitty)
 
 ## Contributing
 
