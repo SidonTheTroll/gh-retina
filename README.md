@@ -1,8 +1,8 @@
-<h1 align='center'>NvChad Colemak</h1>
+<h1 align='center'>Gh-Retina</h1>
 
 <div align="center">
-    <img src="https://img.shields.io/static/v1?label=GhCLI&logo=github&message=2.0.0+&color=90E59A&logoColor=white"/>
-    <img src="https://img.shields.io/static/v1?label=Language&message=Shell&color=blue&style=for-the-badge"/>
+    <img src="https://img.shields.io/static/v1?label=GhCLI&logo=github&message=2.0.0+&color=90E59A&logoColor=white&style=for-the-badge"/>
+    <img src="https://img.shields.io/static/v1?label=Language&message=Shell&color=FF6B6B&style=for-the-badge"/>
     <img src="https://img.shields.io/static/v1?label=License&message=GPLv3&color=blue&style=for-the-badge"/>
 </div>
 
