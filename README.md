@@ -1,8 +1,8 @@
 # gh-retina
 
 <div align="center">
-    <img src="https://img.shields.io/static/v1?label=Language&message=Shell&color=blue&style=plastic"/>
-    <img src="https://img.shields.io/static/v1?label=License&message=GPLv3&color=blue&style=plastic"/>
+    <img src="https://img.shields.io/static/v1?label=Language&message=Shell&color=blue&style=for-the-badge"/>
+    <img src="https://img.shields.io/static/v1?label=License&message=GPLv3&color=blue&style=for-the-badge"/>
 </div>
 
 
