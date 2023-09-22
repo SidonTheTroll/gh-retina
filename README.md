@@ -22,6 +22,10 @@ git clone https://github.com/SidonTheTroll/gh-eye ~/.local/share/gh/ --depth 1
 
 ```
 
+## Dependencies
+
+1. Kitty 
+
 ## Contributing
 
 Contact me on [Discord](https://discord.com/users/728604179186188368) or fork the project and start a PullRequest.
