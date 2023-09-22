@@ -3,8 +3,8 @@
 <h1 align='center'>Gh-Retina</h1>
 
 <div align="center">
-    <img src="https://img.shields.io/static/v1?label=GhCLI&logo=github&message=2.0.0+&color=90E59A&logoColor=white&style=for-the-badge"/>
-    <img src="https://img.shields.io/static/v1?label=Language&message=Shell&color=FF6B6B&logo=gnubash&logoColor=white&style=for-the-badge"/>
+    <img src="https://img.shields.io/static/v1?label=GhCLI&logo=github&message=2.0.0+&color=FF6B6B&logoColor=white&style=for-the-badge"/>
+    <img src="https://img.shields.io/static/v1?label=Language&message=Shell&color=90E59A&logo=gnubash&logoColor=white&style=for-the-badge"/>
     <img src="https://img.shields.io/static/v1?label=License&message=GPLv3&color=blue&logo=linux&logoColor=white&style=for-the-badge"/>
 </div>
 
@@ -27,6 +27,7 @@ git clone https://github.com/SidonTheTroll/gh-eye ~/.local/share/gh/ --depth 1
 ## Dependencies
 
 1. [Kitty](https://github.com/kovidgoyal/kitty)
+2. [ImageMagick](https://www.imagemagick.org/)
 
 ## Contributing
 
