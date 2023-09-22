@@ -1,0 +1,100 @@
+#!/bin/bash
+
+set -o nounset
+set -o errexit
+
+readonly COLOR_BG_BLACK="\033[40;1m"
+readonly COLOR_FG_BLACK="\033[30m"
+readonly COLOR_FG_HIGHLIGHT="\033[34;1m"
+readonly COLOR_NONE="\033[m"
+readonly INDICATOR="➤"
+
+readonly LOGO="
+  ${COLOR_BG_BLACK}                                          ${COLOR_NONE}
+  ${COLOR_BG_BLACK}                 !!;;;!!!!                ${COLOR_NONE}
+  ${COLOR_BG_BLACK}           ;iii!!        !i!ii;           ${COLOR_NONE}
+  ${COLOR_BG_BLACK}        !VV!                  !VV!        ${COLOR_NONE}
+  ${COLOR_BG_BLACK}      ;U!                        !U!      ${COLOR_NONE}
+  ${COLOR_BG_BLACK}     b!                            ib     ${COLOR_NONE}
+  ${COLOR_BG_BLACK}   ;B     !b!ii!          !Vi!b;     B;   ${COLOR_NONE}
+  ${COLOR_BG_BLACK}  !b      b    !VV!!;;!!iV;    b      b!  ${COLOR_NONE}
+  ${COLOR_BG_BLACK}  B       i                    V       b  ${COLOR_NONE}
+  ${COLOR_BG_BLACK} i!      Vi                    VV      !i ${COLOR_NONE}
+  ${COLOR_BG_BLACK} U      Vi                      !i      U ${COLOR_NONE}
+  ${COLOR_BG_BLACK} U      B    Vi!i;!!;;!;!V!iU!   i      U ${COLOR_NONE}
+  ${COLOR_BG_BLACK} U      b  !B  V!V;    ;U!V  b!  U      U ${COLOR_NONE}
+  ${COLOR_BG_BLACK} ii     U; U  U;##b    b  !U  b ;V     !i ${COLOR_NONE}
+  ${COLOR_BG_BLACK}  B      b;!B  b!V!    !V!U  b;;b      B  ${COLOR_NONE}
+  ${COLOR_BG_BLACK}  !b      iViV!i;        ;iiVVVV      b!  ${COLOR_NONE}
+  ${COLOR_BG_BLACK}   ;B       !ii!VbUUiibUbV!ii!       B;   ${COLOR_NONE}
+  ${COLOR_BG_BLACK}     bi                            ib     ${COLOR_NONE}
+  ${COLOR_BG_BLACK}      ;Ui                        iU;      ${COLOR_NONE}
+  ${COLOR_BG_BLACK}        !VV!                  !VV!        ${COLOR_NONE}
+  ${COLOR_BG_BLACK}           ;ii!!!        ii!ii            ${COLOR_NONE}
+  ${COLOR_BG_BLACK}                 !!;;!;!!                 ${COLOR_NONE}
+  ${COLOR_BG_BLACK}                                          ${COLOR_NONE}
+"
+
+readonly JSON_KEYS=(
+    "company"
+    "blog"
+    "location"
+    "email"
+    "twitter_username"
+    "public_repos"
+    "public_gists"
+    "followers"
+    "following"
+    "created_at"
+    "updated_at"
+)
+
+function _main() {
+    paste -d " " <(echo -e "${LOGO}") <(gh api "user" | _print_info)
+}
+
+function _get_value() {
+    jq -r ".${1}" </dev/stdin
+}
+
+function _print_info() {
+    local userinfo
+    userinfo="$(cat /dev/stdin)"
+
+    echo -e "\n"
+    # echo -e "${COLOR_BG_BLACK} $(_get_value "login" <<< "${userinfo}") ${COLOR_NONE}"
+    echo -e "${COLOR_NONE} $(_get_value "login" <<< "${userinfo}") ${COLOR_NONE}"
+    echo -e ""
+
+    _get_value "bio" <<<${userinfo}
+
+    _print_bar
+
+    for k in "${JSON_KEYS[@]}"; do
+        echo -e "${COLOR_FG_HIGHLIGHT} ${k} ${COLOR_NONE}${INDICATOR} $(_get_value "${k}" <<<"${userinfo}")"
+    done
+
+    _print_bar
+
+    _print_color_bar
+}
+
+function _print_bar() {
+    echo -e "${COLOR_FG_BLACK}=================================================${COLOR_NONE}"
+}
+
+function _print_color_bar() {
+    echo -e ""
+
+    for i in "" ";1"; do
+        for j in $(seq 0 7); do
+            printf " \033[4${j}${i}m    \033[m"
+        done
+        echo -e "\n"
+    done
+
+    echo -e ""
+}
+
+_main "${@}"
+exit "${?}"
