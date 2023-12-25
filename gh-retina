@@ -3,6 +3,7 @@
 set -o nounset
 set -o errexit
 
+readonly IMAGE_SIZE="300x300"
 readonly COLOR_BG_BLACK="\033[40;1m"
 readonly COLOR_FG_BLACK="\033[30m"
 readonly COLOR_FG_WHITE="\033[37m"
@@ -60,7 +61,7 @@ function _print_info() {
             curl -s -o "$temp_image" "$avatar_url"
 
             # Resize the image to a smaller size
-            convert "$temp_image" -resize 300x300 "$temp_image"
+            convert "$temp_image" -resize ${IMAGE_SIZE} "$temp_image"
 
             # Display the resized image in Kitty terminal on the left
             kitty +kitten icat --align left "$temp_image"
@@ -81,7 +82,11 @@ function _print_info() {
     for k in "${JSON_KEYS[@]}"; do
         local value
         value="$(_get_value "${k}" <<<"$userinfo")"
-        printf "%s${COLOR_FG_HIGHLIGHT}${k}${COLOR_NONE}${INDICATOR}${value}\n" ""
+        
+        # Check if the value is empty and print 'null' instead
+        [ -z "${value}" ] && value="null"
+
+        printf "%s${COLOR_FG_HIGHLIGHT}${k}${COLOR_NONE}${INDICATOR} ${value}\n" ""
     done
 
     _print_bar
