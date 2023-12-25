@@ -35,19 +35,6 @@ function _get_avatar_url() {
     echo "$avatar_url"
 }
 
-function _display_profile_picture() {
-    local username="$1"
-    local avatar_url
-    avatar_url="$(_get_avatar_url "$username")"
-
-    if [ "$avatar_url" != "null" ]; then
-        # Display the profile picture in Kitty terminal on the left
-        kitty +kitten icat --align left "$avatar_url"
-    else
-        echo "User not found or has no profile picture."
-    fi
-}
-
 function _print_info() {
     local username="$1"
     local userinfo
@@ -57,37 +44,33 @@ function _print_info() {
     avatar_url="$(_get_avatar_url "$username")"
 
     if [ "$avatar_url" != "null" ]; then
-        # Display the profile picture in Kitty terminal on the left
-        kitty +kitten icat --align left "$avatar_url"
+        # Download the image
+        local temp_image="/tmp/github_avatar.jpg"
+        curl -s -o "$temp_image" "$avatar_url"
+
+        # Resize the image to a smaller size
+        convert "$temp_image" -resize 300x300 "$temp_image"
+
+        # Display the resized image in Kitty terminal on the left
+        kitty +kitten icat --align left "$temp_image"
+
+        # Remove the temporary image file
+        rm "$temp_image"
     else
         echo "User not found or has no profile picture."
     fi
 
     echo -e "\n"
 
-    # Get the terminal width
-    local term_width
-    term_width="$(tput cols)"
+    # Print the user's name inside a black box with cyan foreground
+    echo -e "${COLOR_BG_BLACK}${COLOR_FG_HIGHLIGHT}\033[36m$(_get_value "name" <<<"${userinfo}")${COLOR_NONE}"
 
-    # Calculate the width for the user info section
-    local info_width
-    info_width=$((term_width - 40))  # Adjust this value as needed
-
-    # Create a string of spaces to center-align the user info
-    local padding
-    padding=""
-    for ((i = 0; i < ((info_width - 1) / 2); i++)); do
-        padding+=" "
-    done
-
-    _get_value "bio" <<<"$userinfo"
-    
     _print_bar
 
     for k in "${JSON_KEYS[@]}"; do
         local value
         value="$(_get_value "${k}" <<<"$userinfo")"
-        printf "%s${COLOR_FG_HIGHLIGHT} ${k} ${COLOR_NONE}${INDICATOR} ${value}\n" "$padding"
+        printf "%s${COLOR_FG_HIGHLIGHT}${k}${COLOR_NONE}${INDICATOR}${value}\n" ""
     done
 
     _print_bar
@@ -116,7 +99,6 @@ function _print_color_bar() {
 
 function _main() {
     read -p "Enter a GitHub username: " username
-    _display_profile_picture "$username"
     _print_info "$username"
 }
 
