@@ -70,7 +70,7 @@ function _print_info() {
     for k in "${JSON_KEYS[@]}"; do
         local value
         value="$(_get_value "${k}" <<<"$userinfo")"
-        printf "%s${COLOR_FG_HIGHLIGHT}${k}${COLOR_NONE}${INDICATOR}${value}\n" ""
+        printf "%s${COLOR_FG_HIGHLIGHT}${k}${COLOR_NONE}${INDICATOR} ${value}\n" ""
     done
 
     _print_bar
@@ -97,10 +97,10 @@ function _print_color_bar() {
     echo -e ""
 }
 
-function _main() {
-    read -p "Enter a GitHub username: " username
-    _print_info "$username"
-}
-
-_main "${@}"
-exit "${?}"
+# Check if a username is provided as a command-line argument
+if [ $# -eq 1 ]; then
+    _print_info "$1"
+else
+    echo "Usage: $0 <username>"
+    exit 1
+fi
