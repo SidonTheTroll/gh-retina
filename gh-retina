@@ -36,41 +36,49 @@ function _get_avatar_url() {
 }
 
 function _print_info() {
-    local username="$1"
+    local username="${1:-}"
     local userinfo
-    userinfo="$(_get_user_info "$username")"
 
-    local avatar_url
-    avatar_url="$(_get_avatar_url "$username")"
-
-    if [ "$avatar_url" != "null" ]; then
-        # Download the image
-        local temp_image="/tmp/github_avatar.jpg"
-        curl -s -o "$temp_image" "$avatar_url"
-
-        # Resize the image to a smaller size
-        convert "$temp_image" -resize 300x300 "$temp_image"
-
-        # Display the resized image in Kitty terminal on the left
-        kitty +kitten icat --align left "$temp_image"
-
-        # Remove the temporary image file
-        rm "$temp_image"
+    if [ -z "${username}" ]; then
+        # If username is not provided, get the logged-in user info
+        userinfo="$(gh api user)"
     else
-        echo "User not found or has no profile picture."
+        # If username is provided, get the specified user info
+        userinfo="$(_get_user_info "$username")"
     fi
 
-    echo -e "\n"
+    if [ -n "${username}" ]; then
+        # If username is provided, try to get and display the profile picture
+        local avatar_url
+        avatar_url="$(_get_avatar_url "$username")"
+
+        if [ "$avatar_url" != "null" ]; then
+            # Download the image
+            local temp_image="/tmp/github_avatar.jpg"
+            curl -s -o "$temp_image" "$avatar_url"
+
+            # Resize the image to a smaller size
+            convert "$temp_image" -resize 300x300 "$temp_image"
+
+            # Display the resized image in Kitty terminal on the left
+            kitty +kitten icat --align left "$temp_image"
+
+            # Remove the temporary image file
+            rm "$temp_image"
+        else
+            echo "User not found or has no profile picture."
+        fi
+    fi
 
     # Print the user's name inside a black box with cyan foreground
-    echo -e "${COLOR_BG_BLACK}${COLOR_FG_HIGHLIGHT}\033[36m$(_get_value "name" <<<"${userinfo}")${COLOR_NONE}"
+    echo -e "${COLOR_BG_BLACK}${COLOR_FG_HIGHLIGHT}\033[36m$(_get_value "name" <<<"${userinfo:-}")${COLOR_NONE}"
 
     _print_bar
 
     for k in "${JSON_KEYS[@]}"; do
         local value
         value="$(_get_value "${k}" <<<"$userinfo")"
-        printf "%s${COLOR_FG_HIGHLIGHT}${k}${COLOR_NONE}${INDICATOR} ${value}\n" ""
+        printf "%s${COLOR_FG_HIGHLIGHT}${k}${COLOR_NONE}${INDICATOR}${value}\n" ""
     done
 
     _print_bar
@@ -84,23 +92,15 @@ function _print_bar() {
     echo -e "${COLOR_FG_BLACK}=================================================${COLOR_NONE}"
 }
 
-function _print_color_bar() {
-    echo -e ""
-
-    for i in "" ";1"; do
-        for j in $(seq 0 7); do
-            printf " \033[4${j}${i}m    \033[m"
-        done
-        echo -e "\n"
-    done
-
-    echo -e ""
-}
+# Check if GitHub CLI (gh) is installed
+if ! command -v gh &> /dev/null; then
+    echo "GitHub CLI (gh) not found. Please install GitHub CLI and try again."
+    exit 1
+fi
 
 # Check if a username is provided as a command-line argument
 if [ $# -eq 1 ]; then
     _print_info "$1"
 else
-    echo "Usage: $0 <username>"
-    exit 1
+    _print_info
 fi
