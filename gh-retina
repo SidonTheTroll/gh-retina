@@ -5,8 +5,10 @@ set -o errexit
 
 readonly COLOR_BG_BLACK="\033[40;1m"
 readonly COLOR_FG_BLACK="\033[30m"
+readonly COLOR_FG_WHITE="\033[37m"
 readonly COLOR_FG_HIGHLIGHT="\033[34;1m"
 readonly COLOR_NONE="\033[m"
+readonly COLOR_FG_CYAN="\033[36m"
 readonly INDICATOR="➤"
 
 readonly JSON_KEYS=(
@@ -70,8 +72,9 @@ function _print_info() {
         fi
     fi
 
-    # Print the user's name inside a black box with cyan foreground
-    echo -e "${COLOR_BG_BLACK}${COLOR_FG_HIGHLIGHT}\033[36m$(_get_value "name" <<<"${userinfo:-}")${COLOR_NONE}"
+    # Print the user's name inside a black box with cyan foreground  
+    echo -e "${COLOR_BG_BLACK}${COLOR_FG_HIGHLIGHT}${COLOR_FG_CYAN}${COLOR_BG_BLACK}${COLOR_BG_BLACK}Name${COLOR_BG_BLACK}${INDICATOR} ${COLOR_FG_WHITE}$(_get_value "name" <<<"${userinfo:-}")${COLOR_NONE}"
+    echo -e "${COLOR_BG_BLACK}${COLOR_FG_HIGHLIGHT}${COLOR_FG_CYAN}${COLOR_BG_BLACK}${COLOR_BG_BLACK}Username${COLOR_BG_BLACK}${INDICATOR} ${COLOR_FG_WHITE}$(_get_value "login" <<<"${userinfo:-}")${COLOR_NONE}"
 
     _print_bar
 
