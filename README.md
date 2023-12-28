@@ -1,4 +1,4 @@
-<h1 align='center'>gh-Retina</h1>
+<h1 align='center'>gh-retina</h1>
 
 <div align="center">
     <img src="https://img.shields.io/static/v1?label=GhCLI&logo=github&message=2.0.0+&color=FF6B6B&logoColor=white&style=for-the-badge"/>
