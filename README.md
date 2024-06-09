@@ -33,6 +33,7 @@ git clone https://github.com/SidonTheTroll/gh-retina/ ~/.local/share/gh/extensio
 
 1. [Kitty](https://github.com/kovidgoyal/kitty)
 2. [ImageMagick](https://www.imagemagick.org/)
+3. [Curl](https://www.geeksforgeeks.org/curl-command-in-linux-with-examples/)
 
 ## Contributing
 
