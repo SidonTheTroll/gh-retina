@@ -21,7 +21,12 @@ Requires [GitHub CLI](https://github.com/cli/cli) v2.0.0+ and [stedolan/jq](http
 
 ```sh
 git clone https://github.com/SidonTheTroll/gh-retina/ ~/.local/share/gh/extensions/ 
+```
 
+Or directly install extension
+
+```sh
+gh extension install SidonTheTroll/gh-retina
 ```
 
 ## Media 
