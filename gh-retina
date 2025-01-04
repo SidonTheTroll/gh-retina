@@ -61,7 +61,7 @@ function _print_info() {
             curl -s -o "$temp_image" "$avatar_url"
 
             # Resize the image to a smaller size
-            convert "$temp_image" -resize ${IMAGE_SIZE} "$temp_image"
+            magick "$temp_image" -resize ${IMAGE_SIZE} "$temp_image"
 
             # Display the resized image in Kitty terminal on the left
             kitty +kitten icat --align left "$temp_image"
