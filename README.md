@@ -39,6 +39,7 @@ gh extension install SidonTheTroll/gh-retina
 1. [Kitty](https://github.com/kovidgoyal/kitty)
 2. [ImageMagick](https://www.imagemagick.org/)
 3. [Curl](https://www.geeksforgeeks.org/curl-command-in-linux-with-examples/)
+4. [jq](https://jqlang.github.io/jq/)
 
 ## Contributing
 
