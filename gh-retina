@@ -97,7 +97,7 @@ function _get_value() {
 }
 
 function _print_bar() {
-    echo -e "${COLOR_FG_BLACK}=================================================${COLOR_NONE}"
+    echo -e "${COLOR_FG_WHITE}-------------------------------------------------${COLOR_NONE}"
 }
 
 # Check if GitHub CLI (gh) is installed
